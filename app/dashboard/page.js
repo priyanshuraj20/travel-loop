@@ -1,73 +1,104 @@
 "use client";
-
-import { useEffect, useState } from "react";
-import { useSession } from "next-auth/react";
-import Link from "next/link";
-
-interface DashboardData {
-  upcomingTrips: any[];
-  popularCities: any[];
-  recentTrips: any[];
-  recentActivities: any[];
-  stats: {
-    totalTrips: number;
-    totalCountries: number;
-    totalBudget: number;
-    totalActivities: number;
-    totalCitiesVisited: number;
-    monthlyTrips: number;
-  };
-  recommendedDestinations: any[];
-  budgetHighlights: any[];
-  budgetSummary: any[];
-  topDestinations: any[];
-}
-
-export default function DashboardPage() {
-  const { data: session } = useSession();
-  const [data, setData] = useState<DashboardData | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  useEffect(() => {
-    async function fetchDashboard() {
-      try {
-        const res = await fetch("/api/dashboard");
-        if (res.ok) {
-          const json = await res.json();
-          setData(json);
-        }
-      } catch (error) {
-        console.error("Failed to fetch dashboard", error);
-      } finally {
-        setLoading(false);
-      }
+"use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g = Object.create((typeof Iterator === "function" ? Iterator : Object).prototype);
+    return g.next = verb(0), g["throw"] = verb(1), g["return"] = verb(2), typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
-    fetchDashboard();
-  }, []);
-
-  if (loading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center italic font-serif text-muted fade-in">
+};
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = DashboardPage;
+var react_1 = require("react");
+var react_2 = require("next-auth/react");
+var link_1 = require("next/link");
+function DashboardPage() {
+    var _a;
+    var session = (0, react_2.useSession)().data;
+    var _b = (0, react_1.useState)(null), data = _b[0], setData = _b[1];
+    var _c = (0, react_1.useState)(true), loading = _c[0], setLoading = _c[1];
+    var _d = (0, react_1.useState)(false), mobileMenuOpen = _d[0], setMobileMenuOpen = _d[1];
+    (0, react_1.useEffect)(function () {
+        function fetchDashboard() {
+            return __awaiter(this, void 0, void 0, function () {
+                var res, json, error_1;
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
+                        case 0:
+                            _a.trys.push([0, 4, 5, 6]);
+                            return [4 /*yield*/, fetch("/api/dashboard")];
+                        case 1:
+                            res = _a.sent();
+                            if (!res.ok) return [3 /*break*/, 3];
+                            return [4 /*yield*/, res.json()];
+                        case 2:
+                            json = _a.sent();
+                            setData(json);
+                            _a.label = 3;
+                        case 3: return [3 /*break*/, 6];
+                        case 4:
+                            error_1 = _a.sent();
+                            console.error("Failed to fetch dashboard", error_1);
+                            return [3 /*break*/, 6];
+                        case 5:
+                            setLoading(false);
+                            return [7 /*endfinally*/];
+                        case 6: return [2 /*return*/];
+                    }
+                });
+            });
+        }
+        fetchDashboard();
+    }, []);
+    if (loading) {
+        return (<div className="flex min-h-screen items-center justify-center italic font-serif text-muted fade-in">
         Consulting your records...
-      </div>
-    );
-  }
-
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-page via-page/95 to-secondary/10">
+      </div>);
+    }
+    return (<div className="min-h-screen bg-gradient-to-br from-page via-page/95 to-secondary/10">
       {/* Mobile Menu Overlay */}
-      {mobileMenuOpen && (
-        <div
-          className="fixed inset-0 bg-black/50 z-50 lg:hidden"
-          onClick={() => setMobileMenuOpen(false)}
-        />
-      )}
+      {mobileMenuOpen && (<div className="fixed inset-0 bg-black/50 z-50 lg:hidden" onClick={function () { return setMobileMenuOpen(false); }}/>)}
 
       {/* Sidebar Navigation */}
-      <div className={`fixed left-0 top-16 h-[calc(100vh-4rem)] w-64 bg-card/95 backdrop-blur-sm border-r border-border/50 shadow-xl z-40 transform transition-transform duration-300 ease-in-out ${
-        mobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
-      }`}>
+      <div className={"fixed left-0 top-16 h-[calc(100vh-4rem)] w-64 bg-card/95 backdrop-blur-sm border-r border-border/50 shadow-xl z-40 transform transition-transform duration-300 ease-in-out ".concat(mobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0')}>
         <div className="p-6 border-b border-border/30">
           <h2 className="text-xl font-serif italic text-primary">
             Travel Loop
@@ -77,46 +108,26 @@ export default function DashboardPage() {
           </p>
         </div>
         <nav className="p-4 space-y-2">
-          <Link
-            href="/dashboard"
-            className="flex items-center gap-3 p-3 rounded-lg bg-primary/10 text-primary border border-primary/20"
-            onClick={() => setMobileMenuOpen(false)}
-          >
+          <link_1.default href="/dashboard" className="flex items-center gap-3 p-3 rounded-lg bg-primary/10 text-primary border border-primary/20" onClick={function () { return setMobileMenuOpen(false); }}>
             <span className="text-lg">📊</span>
             <span className="font-medium">Dashboard</span>
-          </Link>
-          <Link
-            href="/trips"
-            className="flex items-center gap-3 p-3 rounded-lg hover:bg-secondary/20 transition-colors"
-            onClick={() => setMobileMenuOpen(false)}
-          >
+          </link_1.default>
+          <link_1.default href="/trips" className="flex items-center gap-3 p-3 rounded-lg hover:bg-secondary/20 transition-colors" onClick={function () { return setMobileMenuOpen(false); }}>
             <span className="text-lg">🗂️</span>
             <span className="font-medium">My Trips</span>
-          </Link>
-          <Link
-            href="/trips/create"
-            className="flex items-center gap-3 p-3 rounded-lg hover:bg-secondary/20 transition-colors"
-            onClick={() => setMobileMenuOpen(false)}
-          >
+          </link_1.default>
+          <link_1.default href="/trips/create" className="flex items-center gap-3 p-3 rounded-lg hover:bg-secondary/20 transition-colors" onClick={function () { return setMobileMenuOpen(false); }}>
             <span className="text-lg">✈️</span>
             <span className="font-medium">Plan Trip</span>
-          </Link>
-          <Link
-            href="/search/cities"
-            className="flex items-center gap-3 p-3 rounded-lg hover:bg-secondary/20 transition-colors"
-            onClick={() => setMobileMenuOpen(false)}
-          >
+          </link_1.default>
+          <link_1.default href="/search/cities" className="flex items-center gap-3 p-3 rounded-lg hover:bg-secondary/20 transition-colors" onClick={function () { return setMobileMenuOpen(false); }}>
             <span className="text-lg">🏙️</span>
             <span className="font-medium">Discover Cities</span>
-          </Link>
-          <Link
-            href="/search/activities"
-            className="flex items-center gap-3 p-3 rounded-lg hover:bg-secondary/20 transition-colors"
-            onClick={() => setMobileMenuOpen(false)}
-          >
+          </link_1.default>
+          <link_1.default href="/search/activities" className="flex items-center gap-3 p-3 rounded-lg hover:bg-secondary/20 transition-colors" onClick={function () { return setMobileMenuOpen(false); }}>
             <span className="text-lg">🎯</span>
             <span className="font-medium">Find Activities</span>
-          </Link>
+          </link_1.default>
         </nav>
       </div>
 
@@ -128,13 +139,9 @@ export default function DashboardPage() {
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4">
                 {/* Mobile Menu Button */}
-                <button
-                  onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                  className="lg:hidden p-2 rounded-lg hover:bg-secondary/20 transition-colors"
-                  aria-label="Toggle menu"
-                >
+                <button onClick={function () { return setMobileMenuOpen(!mobileMenuOpen); }} className="lg:hidden p-2 rounded-lg hover:bg-secondary/20 transition-colors" aria-label="Toggle menu">
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16"/>
                   </svg>
                 </button>
                 <div>
@@ -142,16 +149,16 @@ export default function DashboardPage() {
                     Traveler's Command Center
                   </h1>
                   <p className="text-muted font-serif italic">
-                    Welcome back, {session?.user?.name || "Explorer"}. Your adventures await.
+                    Welcome back, {((_a = session === null || session === void 0 ? void 0 : session.user) === null || _a === void 0 ? void 0 : _a.name) || "Explorer"}. Your adventures await.
                   </p>
                 </div>
               </div>
               <div className="flex gap-3">
-                <Link href="/trips/create">
+                <link_1.default href="/trips/create">
                   <button className="primary px-4 py-2 text-sm uppercase tracking-widest font-bold md:px-6">
                     Plan New Journey
                   </button>
-                </Link>
+                </link_1.default>
               </div>
             </div>
           </div>
@@ -163,7 +170,7 @@ export default function DashboardPage() {
             <div className="stat-card group p-3">
               <div className="text-xl mb-1">🗺️</div>
               <div className="text-lg font-bold text-primary group-hover:scale-110 transition-transform">
-                {data?.stats.totalTrips || 0}
+                {(data === null || data === void 0 ? void 0 : data.stats.totalTrips) || 0}
               </div>
               <div className="text-xs uppercase tracking-widest text-muted font-serif">
                 Journeys
@@ -172,7 +179,7 @@ export default function DashboardPage() {
             <div className="stat-card group p-3">
               <div className="text-xl mb-1">🌍</div>
               <div className="text-lg font-bold text-primary group-hover:scale-110 transition-transform">
-                {data?.stats.totalCountries || 0}
+                {(data === null || data === void 0 ? void 0 : data.stats.totalCountries) || 0}
               </div>
               <div className="text-xs uppercase tracking-widest text-muted font-serif">
                 Countries
@@ -181,7 +188,7 @@ export default function DashboardPage() {
             <div className="stat-card group p-3">
               <div className="text-xl mb-1">💰</div>
               <div className="text-lg font-bold text-primary group-hover:scale-110 transition-transform">
-                ${(data?.stats.totalBudget || 0).toLocaleString()}
+                ${((data === null || data === void 0 ? void 0 : data.stats.totalBudget) || 0).toLocaleString()}
               </div>
               <div className="text-xs uppercase tracking-widest text-muted font-serif">
                 Invested
@@ -190,7 +197,7 @@ export default function DashboardPage() {
             <div className="stat-card group p-3">
               <div className="text-xl mb-1">🎯</div>
               <div className="text-lg font-bold text-primary group-hover:scale-110 transition-transform">
-                {data?.stats.totalActivities || 0}
+                {(data === null || data === void 0 ? void 0 : data.stats.totalActivities) || 0}
               </div>
               <div className="text-xs uppercase tracking-widest text-muted font-serif">
                 Activities
@@ -199,7 +206,7 @@ export default function DashboardPage() {
             <div className="stat-card group p-3">
               <div className="text-xl mb-1">🏙️</div>
               <div className="text-lg font-bold text-primary group-hover:scale-110 transition-transform">
-                {data?.stats.totalCitiesVisited || 0}
+                {(data === null || data === void 0 ? void 0 : data.stats.totalCitiesVisited) || 0}
               </div>
               <div className="text-xs uppercase tracking-widest text-muted font-serif">
                 Cities
@@ -208,7 +215,7 @@ export default function DashboardPage() {
             <div className="stat-card group p-3">
               <div className="text-xl mb-1">📅</div>
               <div className="text-lg font-bold text-primary group-hover:scale-110 transition-transform">
-                {data?.stats.monthlyTrips || 0}
+                {(data === null || data === void 0 ? void 0 : data.stats.monthlyTrips) || 0}
               </div>
               <div className="text-xs uppercase tracking-widest text-muted font-serif">
                 This Year
@@ -217,7 +224,7 @@ export default function DashboardPage() {
             <div className="stat-card group">
               <div className="text-2xl mb-1">💰</div>
               <div className="text-xl font-bold text-primary group-hover:scale-110 transition-transform">
-                ${(data?.stats.totalBudget || 0).toLocaleString()}
+                ${((data === null || data === void 0 ? void 0 : data.stats.totalBudget) || 0).toLocaleString()}
               </div>
               <div className="text-xs uppercase tracking-widest text-muted font-serif">
                 Invested
@@ -226,7 +233,7 @@ export default function DashboardPage() {
             <div className="stat-card group">
               <div className="text-2xl mb-1">🎯</div>
               <div className="text-xl font-bold text-primary group-hover:scale-110 transition-transform">
-                {data?.stats.totalActivities || 0}
+                {(data === null || data === void 0 ? void 0 : data.stats.totalActivities) || 0}
               </div>
               <div className="text-xs uppercase tracking-widest text-muted font-serif">
                 Activities
@@ -235,7 +242,7 @@ export default function DashboardPage() {
             <div className="stat-card group">
               <div className="text-2xl mb-1">🏙️</div>
               <div className="text-xl font-bold text-primary group-hover:scale-110 transition-transform">
-                {data?.stats.totalCitiesVisited || 0}
+                {(data === null || data === void 0 ? void 0 : data.stats.totalCitiesVisited) || 0}
               </div>
               <div className="text-xs uppercase tracking-widest text-muted font-serif">
                 Cities
@@ -244,7 +251,7 @@ export default function DashboardPage() {
             <div className="stat-card group">
               <div className="text-2xl mb-1">📅</div>
               <div className="text-xl font-bold text-primary group-hover:scale-110 transition-transform">
-                {data?.stats.monthlyTrips || 0}
+                {(data === null || data === void 0 ? void 0 : data.stats.monthlyTrips) || 0}
               </div>
               <div className="text-xs uppercase tracking-widest text-muted font-serif">
                 This Year
@@ -262,17 +269,15 @@ export default function DashboardPage() {
                   <h2 className="text-2xl font-serif italic text-primary">
                     Upcoming Adventures
                   </h2>
-                  <Link href="/trips/create">
+                  <link_1.default href="/trips/create">
                     <button className="ink-link text-sm uppercase tracking-widest font-bold">
                       + New Trip
                     </button>
-                  </Link>
+                  </link_1.default>
                 </div>
 
-                {data?.upcomingTrips.length ? (
-                  <div className="grid gap-4">
-                    {data.upcomingTrips.map((trip) => (
-                      <div key={trip.id} className="trip-card group">
+                {(data === null || data === void 0 ? void 0 : data.upcomingTrips.length) ? (<div className="grid gap-4">
+                    {data.upcomingTrips.map(function (trip) { return (<div key={trip.id} className="trip-card group">
                         <div className="flex items-center justify-between">
                           <div className="flex-1">
                             <h3 className="text-xl font-serif italic group-hover:text-primary transition-colors mb-2">
@@ -285,26 +290,21 @@ export default function DashboardPage() {
                               </span>
                               <span className="text-border">•</span>
                               <span>
-                                {Math.ceil(
-                                  (new Date(trip.endDate).getTime() -
-                                    new Date(trip.startDate).getTime()) /
-                                    (1000 * 60 * 60 * 24),
-                                )}{" "}
+                                {Math.ceil((new Date(trip.endDate).getTime() -
+                    new Date(trip.startDate).getTime()) /
+                    (1000 * 60 * 60 * 24))}{" "}
                                 days
                               </span>
                             </div>
                           </div>
-                          <Link href={`/trips/${trip.id}`}>
+                          <link_1.default href={"/trips/".concat(trip.id)}>
                             <button className="primary text-xs px-4 py-2 uppercase tracking-widest font-bold">
                               View Details
                             </button>
-                          </Link>
+                          </link_1.default>
                         </div>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="empty-state">
+                      </div>); })}
+                  </div>) : (<div className="empty-state">
                     <div className="text-4xl mb-4">🗺️</div>
                     <h3 className="text-xl font-serif italic mb-2">
                       No upcoming journeys
@@ -312,13 +312,12 @@ export default function DashboardPage() {
                     <p className="text-muted mb-6">
                       Time to plan your next adventure!
                     </p>
-                    <Link href="/trips/create">
+                    <link_1.default href="/trips/create">
                       <button className="secondary px-6 py-3 uppercase tracking-widest font-bold">
                         Start Planning
                       </button>
-                    </Link>
-                  </div>
-                )}
+                    </link_1.default>
+                  </div>)}
               </section>
 
               {/* Recent Activity Timeline */}
@@ -327,8 +326,7 @@ export default function DashboardPage() {
                   Recent Activity
                 </h2>
                 <div className="space-y-4">
-                  {data?.recentActivities.slice(0, 8).map((activity, idx) => (
-                    <div key={activity.id} className="activity-item group">
+                  {data === null || data === void 0 ? void 0 : data.recentActivities.slice(0, 8).map(function (activity, idx) { return (<div key={activity.id} className="activity-item group">
                       <div className="flex items-start gap-4">
                         <div className="activity-icon">
                           {activity.category === "food" && "🍽️"}
@@ -337,12 +335,12 @@ export default function DashboardPage() {
                           {activity.category === "culture" && "🎭"}
                           {activity.category === "shopping" && "🛍️"}
                           {![
-                            "food",
-                            "sightseeing",
-                            "adventure",
-                            "culture",
-                            "shopping",
-                          ].includes(activity.category) && "📍"}
+                "food",
+                "sightseeing",
+                "adventure",
+                "culture",
+                "shopping",
+            ].includes(activity.category) && "📍"}
                         </div>
                         <div className="flex-1">
                           <p className="font-medium group-hover:text-primary transition-colors">
@@ -358,16 +356,13 @@ export default function DashboardPage() {
                           </p>
                         </div>
                       </div>
-                    </div>
-                  ))}
-                  {(!data?.recentActivities ||
-                    data.recentActivities.length === 0) && (
-                    <div className="text-center py-8 text-muted">
+                    </div>); })}
+                  {(!(data === null || data === void 0 ? void 0 : data.recentActivities) ||
+            data.recentActivities.length === 0) && (<div className="text-center py-8 text-muted">
                       <p className="font-serif italic">
                         No recent activities yet
                       </p>
-                    </div>
-                  )}
+                    </div>)}
                 </div>
               </section>
             </div>
@@ -379,33 +374,25 @@ export default function DashboardPage() {
                 <h2 className="text-2xl font-serif italic text-primary mb-6">
                   Budget Overview
                 </h2>
-                {data?.budgetHighlights.length ? (
-                  <div className="space-y-4">
-                    {data.budgetHighlights.slice(0, 3).map((highlight, idx) => (
-                      <div key={idx} className="budget-card">
+                {(data === null || data === void 0 ? void 0 : data.budgetHighlights.length) ? (<div className="space-y-4">
+                    {data.budgetHighlights.slice(0, 3).map(function (highlight, idx) { return (<div key={idx} className="budget-card">
                         <div className="flex justify-between items-start mb-3">
                           <h4 className="font-serif italic text-sm">
                             {highlight.tripName}
                           </h4>
                           <span className="text-xs text-muted">
-                            {Math.round(
-                              (highlight.totalAmount / highlight.totalLimit) *
-                                100,
-                            )}
+                            {Math.round((highlight.totalAmount / highlight.totalLimit) *
+                    100)}
                             %
                           </span>
                         </div>
                         <div className="budget-bar">
-                          <div
-                            className="budget-fill"
-                            style={{
-                              width: `${Math.min(100, (highlight.totalAmount / highlight.totalLimit) * 100)}%`,
-                              backgroundColor:
-                                highlight.totalAmount > highlight.totalLimit
-                                  ? "#ef4444"
-                                  : "#10b981",
-                            }}
-                          ></div>
+                          <div className="budget-fill" style={{
+                    width: "".concat(Math.min(100, (highlight.totalAmount / highlight.totalLimit) * 100), "%"),
+                    backgroundColor: highlight.totalAmount > highlight.totalLimit
+                        ? "#ef4444"
+                        : "#10b981",
+                }}></div>
                         </div>
                         <div className="flex justify-between text-xs mt-2">
                           <span>${highlight.totalAmount.toLocaleString()}</span>
@@ -413,16 +400,12 @@ export default function DashboardPage() {
                             ${highlight.totalLimit.toLocaleString()}
                           </span>
                         </div>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="text-center py-6 text-muted">
+                      </div>); })}
+                  </div>) : (<div className="text-center py-6 text-muted">
                     <p className="font-serif italic text-sm">
                       No budget data yet
                     </p>
-                  </div>
-                )}
+                  </div>)}
               </section>
 
               {/* Quick Actions */}
@@ -431,38 +414,38 @@ export default function DashboardPage() {
                   Quick Actions
                 </h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 items-stretch auto-rows-fr">
-                  <Link href="/trips/create" className="block h-full">
+                  <link_1.default href="/trips/create" className="block h-full">
                     <button className="action-button h-full">
                       <span className="text-2xl mb-2">✈️</span>
                       <span className="text-xs uppercase tracking-widest font-bold">
                         New Trip
                       </span>
                     </button>
-                  </Link>
-                  <Link href="/itinerary" className="block h-full">
+                  </link_1.default>
+                  <link_1.default href="/itinerary" className="block h-full">
                     <button className="action-button h-full">
                       <span className="text-2xl mb-2">🗺️</span>
                       <span className="text-xs uppercase tracking-widest font-bold">
                         Itinerary
                       </span>
                     </button>
-                  </Link>
-                  <Link href="/budget" className="block h-full">
+                  </link_1.default>
+                  <link_1.default href="/budget" className="block h-full">
                     <button className="action-button h-full">
                       <span className="text-2xl mb-2">💰</span>
                       <span className="text-xs uppercase tracking-widest font-bold">
                         Budget
                       </span>
                     </button>
-                  </Link>
-                  <Link href="/packing" className="block h-full">
+                  </link_1.default>
+                  <link_1.default href="/packing" className="block h-full">
                     <button className="action-button h-full">
                       <span className="text-2xl mb-2">🎒</span>
                       <span className="text-xs uppercase tracking-widest font-bold">
                         Packing
                       </span>
                     </button>
-                  </Link>
+                  </link_1.default>
                 </div>
               </section>
 
@@ -472,8 +455,7 @@ export default function DashboardPage() {
                   Explore New Places
                 </h2>
                 <div className="space-y-4">
-                  {data?.recommendedDestinations.slice(0, 4).map((city) => (
-                    <div key={city.id} className="destination-card group">
+                  {data === null || data === void 0 ? void 0 : data.recommendedDestinations.slice(0, 4).map(function (city) { return (<div key={city.id} className="destination-card group">
                       <div className="flex items-center justify-between">
                         <div>
                           <h4 className="font-serif italic group-hover:text-primary transition-colors">
@@ -482,33 +464,22 @@ export default function DashboardPage() {
                           <p className="text-xs text-muted">{city.country}</p>
                         </div>
                         <div className="flex items-center gap-1">
-                          {[...Array(5)].map((_, i) => (
-                            <span
-                              key={i}
-                              className={`text-xs ${i < Math.floor(city.costIndex / 20) ? "text-primary" : "text-border"}`}
-                            >
+                          {__spreadArray([], Array(5), true).map(function (_, i) { return (<span key={i} className={"text-xs ".concat(i < Math.floor(city.costIndex / 20) ? "text-primary" : "text-border")}>
                               $
-                            </span>
-                          ))}
+                            </span>); })}
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    </div>); })}
                 </div>
               </section>
 
               {/* Top Destinations */}
-              {data?.topDestinations && data.topDestinations.length > 0 && (
-                <section className="dashboard-section">
+              {(data === null || data === void 0 ? void 0 : data.topDestinations) && data.topDestinations.length > 0 && (<section className="dashboard-section">
                   <h2 className="text-2xl font-serif italic text-primary mb-6">
                     Your Favorite Spots
                   </h2>
                   <div className="space-y-3">
-                    {data.topDestinations.map((dest, idx) => (
-                      <div
-                        key={dest.cityId}
-                        className="flex items-center justify-between group"
-                      >
+                    {data.topDestinations.map(function (dest, idx) { return (<div key={dest.cityId} className="flex items-center justify-between group">
                         <div className="flex items-center gap-3">
                           <span className="font-serif italic text-border text-sm">
                             #{idx + 1}
@@ -520,15 +491,12 @@ export default function DashboardPage() {
                         <span className="text-xs text-muted">
                           {dest._count.cityId} visits
                         </span>
-                      </div>
-                    ))}
+                      </div>); })}
                   </div>
-                </section>
-              )}
+                </section>)}
             </div>
           </div>
         </div>
       </div>
-    </div>
-  );
+    </div>);
 }

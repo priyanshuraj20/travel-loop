@@ -273,6 +273,8 @@ button.secondary:hover {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  text-align: center;
   gap: 0.5rem;
   transition: all 0.3s ease;
   box-shadow: 2px 2px 0px rgba(200, 182, 166, 0.3);
