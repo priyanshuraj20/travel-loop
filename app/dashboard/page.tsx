@@ -7,13 +7,20 @@ import Link from "next/link";
 interface DashboardData {
   upcomingTrips: any[];
   popularCities: any[];
+  recentTrips: any[];
+  recentActivities: any[];
   stats: {
     totalTrips: number;
     totalCountries: number;
     totalBudget: number;
+    totalActivities: number;
+    totalCitiesVisited: number;
+    monthlyTrips: number;
   };
   recommendedDestinations: any[];
   budgetHighlights: any[];
+  budgetSummary: any[];
+  topDestinations: any[];
 }
 
 export default function DashboardPage() {
@@ -47,152 +54,416 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-12 fade-in">
-      {/* Welcome Header */}
-      <header className="mb-12">
-        <h1 className="text-4xl md:text-5xl mb-2">Traveler's Hub</h1>
-        <p className="text-lg text-muted italic font-serif">
-          Greetings, {session?.user?.name || "Explorer"}. Your journal awaits.
-        </p>
-      </header>
+    <div className="min-h-screen bg-gradient-to-br from-page via-page/95 to-secondary/10">
+      {/* Sidebar Navigation */}
+      <div className="fixed left-0 top-0 h-full w-64 bg-card/95 backdrop-blur-sm border-r border-border/50 shadow-xl z-40 hidden lg:block">
+        <div className="p-6 border-b border-border/30">
+          <h2 className="text-xl font-serif italic text-primary">
+            Travel Loop
+          </h2>
+          <p className="text-xs text-muted uppercase tracking-widest mt-1">
+            Control Center
+          </p>
+        </div>
+        <nav className="p-4 space-y-2">
+          <Link
+            href="/dashboard"
+            className="flex items-center gap-3 p-3 rounded-lg bg-primary/10 text-primary border border-primary/20"
+          >
+            <span className="text-lg">📊</span>
+            <span className="font-medium">Dashboard</span>
+          </Link>
+          <Link
+            href="/trips/create"
+            className="flex items-center gap-3 p-3 rounded-lg hover:bg-secondary/20 transition-colors"
+          >
+            <span className="text-lg">✈️</span>
+            <span className="font-medium">Plan Trip</span>
+          </Link>
+          <Link
+            href="/itinerary"
+            className="flex items-center gap-3 p-3 rounded-lg hover:bg-secondary/20 transition-colors"
+          >
+            <span className="text-lg">🗺️</span>
+            <span className="font-medium">Itineraries</span>
+          </Link>
+          <Link
+            href="/budget"
+            className="flex items-center gap-3 p-3 rounded-lg hover:bg-secondary/20 transition-colors"
+          >
+            <span className="text-lg">💰</span>
+            <span className="font-medium">Budget</span>
+          </Link>
+          <Link
+            href="/packing"
+            className="flex items-center gap-3 p-3 rounded-lg hover:bg-secondary/20 transition-colors"
+          >
+            <span className="text-lg">🎒</span>
+            <span className="font-medium">Packing</span>
+          </Link>
+        </nav>
+      </div>
 
-      {/* Main Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-        {/* Left Column: Stats & Upcoming */}
-        <div className="lg:col-span-2 space-y-12">
-          {/* Stats bar */}
-          <div className="grid grid-cols-3 gap-4 border-y border-border py-8 bg-page/50 rounded-sm">
-            <div className="text-center group">
-              <span className="block text-3xl font-bold text-primary transition-transform group-hover:scale-110 duration-300">
+      {/* Main Content */}
+      <div className="lg:ml-64">
+        {/* Header */}
+        <header className="bg-card/80 backdrop-blur-sm border-b border-border/30 sticky top-0 z-30">
+          <div className="max-w-7xl mx-auto px-4 py-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <h1 className="text-3xl md:text-4xl font-serif italic text-primary mb-1">
+                  Traveler's Command Center
+                </h1>
+                <p className="text-muted font-serif italic">
+                  Welcome back, {session?.user?.name || "Explorer"}. Your
+                  adventures await.
+                </p>
+              </div>
+              <div className="hidden md:flex gap-3">
+                <Link href="/trips/create">
+                  <button className="primary px-6 py-2 text-sm uppercase tracking-widest font-bold">
+                    Plan New Journey
+                  </button>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <div className="max-w-7xl mx-auto px-4 py-8">
+          {/* Quick Stats Overview */}
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 mb-8">
+            <div className="stat-card group">
+              <div className="text-2xl mb-1">🗺️</div>
+              <div className="text-xl font-bold text-primary group-hover:scale-110 transition-transform">
                 {data?.stats.totalTrips || 0}
-              </span>
-              <span className="text-xs uppercase tracking-widest text-muted font-serif font-bold">Journeys</span>
+              </div>
+              <div className="text-xs uppercase tracking-widest text-muted font-serif">
+                Journeys
+              </div>
             </div>
-            <div className="text-center border-x border-border group">
-              <span className="block text-3xl font-bold text-primary transition-transform group-hover:scale-110 duration-300">
+            <div className="stat-card group">
+              <div className="text-2xl mb-1">🌍</div>
+              <div className="text-xl font-bold text-primary group-hover:scale-110 transition-transform">
                 {data?.stats.totalCountries || 0}
-              </span>
-              <span className="text-xs uppercase tracking-widest text-muted font-serif font-bold">Countries</span>
+              </div>
+              <div className="text-xs uppercase tracking-widest text-muted font-serif">
+                Countries
+              </div>
             </div>
-            <div className="text-center group">
-              <span className="block text-3xl font-bold text-primary transition-transform group-hover:scale-110 duration-300">
-                ${data?.stats.totalBudget.toLocaleString() || 0}
-              </span>
-              <span className="text-xs uppercase tracking-widest text-muted font-serif font-bold">Invested</span>
+            <div className="stat-card group">
+              <div className="text-2xl mb-1">💰</div>
+              <div className="text-xl font-bold text-primary group-hover:scale-110 transition-transform">
+                ${(data?.stats.totalBudget || 0).toLocaleString()}
+              </div>
+              <div className="text-xs uppercase tracking-widest text-muted font-serif">
+                Invested
+              </div>
+            </div>
+            <div className="stat-card group">
+              <div className="text-2xl mb-1">🎯</div>
+              <div className="text-xl font-bold text-primary group-hover:scale-110 transition-transform">
+                {data?.stats.totalActivities || 0}
+              </div>
+              <div className="text-xs uppercase tracking-widest text-muted font-serif">
+                Activities
+              </div>
+            </div>
+            <div className="stat-card group">
+              <div className="text-2xl mb-1">🏙️</div>
+              <div className="text-xl font-bold text-primary group-hover:scale-110 transition-transform">
+                {data?.stats.totalCitiesVisited || 0}
+              </div>
+              <div className="text-xs uppercase tracking-widest text-muted font-serif">
+                Cities
+              </div>
+            </div>
+            <div className="stat-card group">
+              <div className="text-2xl mb-1">📅</div>
+              <div className="text-xl font-bold text-primary group-hover:scale-110 transition-transform">
+                {data?.stats.monthlyTrips || 0}
+              </div>
+              <div className="text-xs uppercase tracking-widest text-muted font-serif">
+                This Year
+              </div>
             </div>
           </div>
 
-          {/* Recent Records */}
-          <section>
-            <div className="flex justify-between items-baseline mb-8">
-              <h2 className="text-3xl">Upcoming Chapters</h2>
-              <Link href="/trips/new">
-                <button className="primary text-xs uppercase tracking-widest font-bold">Plan New Journey</button>
-              </Link>
-            </div>
+          {/* Main Dashboard Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Left Column - Upcoming & Recent */}
+            <div className="lg:col-span-2 space-y-8">
+              {/* Upcoming Trips */}
+              <section className="dashboard-section">
+                <div className="flex items-center justify-between mb-6">
+                  <h2 className="text-2xl font-serif italic text-primary">
+                    Upcoming Adventures
+                  </h2>
+                  <Link href="/trips/create">
+                    <button className="ink-link text-sm uppercase tracking-widest font-bold">
+                      + New Trip
+                    </button>
+                  </Link>
+                </div>
 
-            {data?.upcomingTrips.length ? (
-              <div className="space-y-6">
-                {data.upcomingTrips.map((trip) => (
-                  <div key={trip.id} className="book-card p-8 flex justify-between items-center group relative overflow-hidden">
-                    <div className="relative z-10">
-                      <h3 className="text-2xl mb-1 group-hover:text-primary transition-colors">{trip.name}</h3>
-                      <p className="text-sm text-muted italic font-serif">
-                        {new Date(trip.startDate).toLocaleDateString(undefined, { month: 'long', day: 'numeric', year: 'numeric' })} 
-                        <span className="mx-2 text-border">/</span>
-                        {new Date(trip.endDate).toLocaleDateString(undefined, { month: 'long', day: 'numeric', year: 'numeric' })}
-                      </p>
-                    </div>
-                    <Link href={`/trips/${trip.id}`} className="relative z-10 ink-link font-bold uppercase tracking-widest text-xs">
-                      Open Record
+                {data?.upcomingTrips.length ? (
+                  <div className="grid gap-4">
+                    {data.upcomingTrips.map((trip) => (
+                      <div key={trip.id} className="trip-card group">
+                        <div className="flex items-center justify-between">
+                          <div className="flex-1">
+                            <h3 className="text-xl font-serif italic group-hover:text-primary transition-colors mb-2">
+                              {trip.name}
+                            </h3>
+                            <div className="flex items-center gap-4 text-sm text-muted">
+                              <span className="flex items-center gap-1">
+                                📅{" "}
+                                {new Date(trip.startDate).toLocaleDateString()}
+                              </span>
+                              <span className="text-border">•</span>
+                              <span>
+                                {Math.ceil(
+                                  (new Date(trip.endDate).getTime() -
+                                    new Date(trip.startDate).getTime()) /
+                                    (1000 * 60 * 60 * 24),
+                                )}{" "}
+                                days
+                              </span>
+                            </div>
+                          </div>
+                          <Link href={`/trips/${trip.id}`}>
+                            <button className="primary text-xs px-4 py-2 uppercase tracking-widest font-bold">
+                              View Details
+                            </button>
+                          </Link>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="empty-state">
+                    <div className="text-4xl mb-4">🗺️</div>
+                    <h3 className="text-xl font-serif italic mb-2">
+                      No upcoming journeys
+                    </h3>
+                    <p className="text-muted mb-6">
+                      Time to plan your next adventure!
+                    </p>
+                    <Link href="/trips/create">
+                      <button className="secondary px-6 py-3 uppercase tracking-widest font-bold">
+                        Start Planning
+                      </button>
                     </Link>
                   </div>
-                ))}
-              </div>
-            ) : (
-              <div className="book-card p-16 text-center bg-page/30 border-dashed">
-                <p className="text-xl italic font-serif text-muted mb-6">Your future pages are currently blank.</p>
-                <Link href="/trips/new">
-                  <button className="secondary uppercase tracking-widest font-bold">Write Your First Chapter</button>
-                </Link>
-              </div>
-            )}
-          </section>
+                )}
+              </section>
 
-          {/* Budget Highlights */}
-          {data?.budgetHighlights.length ? (
-            <section>
-              <h2 className="text-3xl mb-8">Financial Ledger</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {data.budgetHighlights.map((highlight, idx) => (
-                  <div key={idx} className="book-card p-8 border-l-4 border-l-primary">
-                    <h4 className="text-xl font-serif italic mb-4">{highlight.tripName}</h4>
-                    <div className="space-y-2">
-                      <div className="flex justify-between text-xs uppercase tracking-widest text-muted font-bold">
-                        <span>Expenditure</span>
-                        <span>{Math.round((highlight.totalAmount / highlight.totalLimit) * 100)}%</span>
-                      </div>
-                      <div className="h-2 bg-secondary/30 rounded-full overflow-hidden">
-                        <div 
-                          className="h-full bg-primary transition-all duration-1000 ease-out" 
-                          style={{ width: `${Math.min(100, (highlight.totalAmount / highlight.totalLimit) * 100)}%` }}
-                        ></div>
-                      </div>
-                      <div className="flex justify-between items-end pt-2">
-                        <span className="text-lg font-bold">${highlight.totalAmount.toLocaleString()}</span>
-                        <span className="text-xs text-muted font-serif">Limit: ${highlight.totalLimit.toLocaleString()}</span>
+              {/* Recent Activity Timeline */}
+              <section className="dashboard-section">
+                <h2 className="text-2xl font-serif italic text-primary mb-6">
+                  Recent Activity
+                </h2>
+                <div className="space-y-4">
+                  {data?.recentActivities.slice(0, 8).map((activity, idx) => (
+                    <div key={activity.id} className="activity-item group">
+                      <div className="flex items-start gap-4">
+                        <div className="activity-icon">
+                          {activity.category === "food" && "🍽️"}
+                          {activity.category === "sightseeing" && "🏛️"}
+                          {activity.category === "adventure" && "🏔️"}
+                          {activity.category === "culture" && "🎭"}
+                          {activity.category === "shopping" && "🛍️"}
+                          {![
+                            "food",
+                            "sightseeing",
+                            "adventure",
+                            "culture",
+                            "shopping",
+                          ].includes(activity.category) && "📍"}
+                        </div>
+                        <div className="flex-1">
+                          <p className="font-medium group-hover:text-primary transition-colors">
+                            Added{" "}
+                            <span className="font-serif italic">
+                              "{activity.name}"
+                            </span>{" "}
+                            to {activity.stop.city.name}
+                          </p>
+                          <p className="text-sm text-muted">
+                            {activity.stop.trip.name} •{" "}
+                            {new Date(activity.createdAt).toLocaleDateString()}
+                          </p>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
-              </div>
-            </section>
-          ) : null}
-        </div>
+                  ))}
+                  {(!data?.recentActivities ||
+                    data.recentActivities.length === 0) && (
+                    <div className="text-center py-8 text-muted">
+                      <p className="font-serif italic">
+                        No recent activities yet
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </section>
+            </div>
 
-        {/* Right Column: Recommendations & Popular */}
-        <div className="space-y-12">
-          <section className="book-card p-8 bg-page shadow-xl">
-            <h2 className="text-2xl mb-8 border-b border-border pb-4 uppercase tracking-widest">
-              Recommended
-            </h2>
+            {/* Right Column - Budget & Recommendations */}
             <div className="space-y-8">
-              {data?.recommendedDestinations.map((city) => (
-                <div key={city.id} className="group cursor-pointer">
-                  <h4 className="text-xl group-hover:text-primary transition-colors">{city.name}</h4>
-                  <p className="text-sm text-muted font-serif italic mb-3">{city.country}</p>
-                  <div className="flex justify-between items-center">
-                    <div className="flex gap-1">
-                      {[...Array(5)].map((_, i) => (
-                        <span key={i} className={`text-xs ${i < city.costIndex ? 'text-primary' : 'text-border'}`}>$</span>
-                      ))}
-                    </div>
-                    <button className="ink-link text-[10px] font-bold uppercase tracking-widest">
-                      Explore
-                    </button>
+              {/* Budget Overview */}
+              <section className="dashboard-section">
+                <h2 className="text-2xl font-serif italic text-primary mb-6">
+                  Budget Overview
+                </h2>
+                {data?.budgetHighlights.length ? (
+                  <div className="space-y-4">
+                    {data.budgetHighlights.slice(0, 3).map((highlight, idx) => (
+                      <div key={idx} className="budget-card">
+                        <div className="flex justify-between items-start mb-3">
+                          <h4 className="font-serif italic text-sm">
+                            {highlight.tripName}
+                          </h4>
+                          <span className="text-xs text-muted">
+                            {Math.round(
+                              (highlight.totalAmount / highlight.totalLimit) *
+                                100,
+                            )}
+                            %
+                          </span>
+                        </div>
+                        <div className="budget-bar">
+                          <div
+                            className="budget-fill"
+                            style={{
+                              width: `${Math.min(100, (highlight.totalAmount / highlight.totalLimit) * 100)}%`,
+                              backgroundColor:
+                                highlight.totalAmount > highlight.totalLimit
+                                  ? "#ef4444"
+                                  : "#10b981",
+                            }}
+                          ></div>
+                        </div>
+                        <div className="flex justify-between text-xs mt-2">
+                          <span>${highlight.totalAmount.toLocaleString()}</span>
+                          <span className="text-muted">
+                            ${highlight.totalLimit.toLocaleString()}
+                          </span>
+                        </div>
+                      </div>
+                    ))}
                   </div>
-                </div>
-              ))}
-            </div>
-          </section>
+                ) : (
+                  <div className="text-center py-6 text-muted">
+                    <p className="font-serif italic text-sm">
+                      No budget data yet
+                    </p>
+                  </div>
+                )}
+              </section>
 
-          <section className="p-2">
-            <h2 className="text-xl mb-6 font-serif italic border-b border-border pb-2 flex items-center gap-2 text-muted uppercase tracking-widest">
-              Trending Now
-            </h2>
-            <div className="space-y-4">
-              {data?.popularCities.map((city, idx) => (
-                <div key={city.id} className="flex items-center justify-between group">
-                  <div className="flex items-center gap-3">
-                    <span className="font-serif italic text-border text-lg">{idx + 1}</span>
-                    <span className="text-sm font-bold group-hover:text-primary transition-colors">{city.name}</span>
-                  </div>
-                  <div className="h-px flex-grow mx-4 bg-border/30"></div>
-                  <span className="text-[10px] uppercase tracking-tighter text-muted font-bold">{city.popularity}%</span>
+              {/* Quick Actions */}
+              <section className="dashboard-section">
+                <h2 className="text-2xl font-serif italic text-primary mb-6">
+                  Quick Actions
+                </h2>
+                <div className="grid grid-cols-2 gap-3">
+                  <Link href="/trips/create">
+                    <button className="action-button">
+                      <span className="text-2xl mb-2">✈️</span>
+                      <span className="text-xs uppercase tracking-widest font-bold">
+                        New Trip
+                      </span>
+                    </button>
+                  </Link>
+                  <Link href="/itinerary">
+                    <button className="action-button">
+                      <span className="text-2xl mb-2">🗺️</span>
+                      <span className="text-xs uppercase tracking-widest font-bold">
+                        Itinerary
+                      </span>
+                    </button>
+                  </Link>
+                  <Link href="/budget">
+                    <button className="action-button">
+                      <span className="text-2xl mb-2">💰</span>
+                      <span className="text-xs uppercase tracking-widest font-bold">
+                        Budget
+                      </span>
+                    </button>
+                  </Link>
+                  <Link href="/packing">
+                    <button className="action-button">
+                      <span className="text-2xl mb-2">🎒</span>
+                      <span className="text-xs uppercase tracking-widest font-bold">
+                        Packing
+                      </span>
+                    </button>
+                  </Link>
                 </div>
-              ))}
+              </section>
+
+              {/* Recommended Destinations */}
+              <section className="dashboard-section">
+                <h2 className="text-2xl font-serif italic text-primary mb-6">
+                  Explore New Places
+                </h2>
+                <div className="space-y-4">
+                  {data?.recommendedDestinations.slice(0, 4).map((city) => (
+                    <div key={city.id} className="destination-card group">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <h4 className="font-serif italic group-hover:text-primary transition-colors">
+                            {city.name}
+                          </h4>
+                          <p className="text-xs text-muted">{city.country}</p>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          {[...Array(5)].map((_, i) => (
+                            <span
+                              key={i}
+                              className={`text-xs ${i < Math.floor(city.costIndex / 20) ? "text-primary" : "text-border"}`}
+                            >
+                              $
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </section>
+
+              {/* Top Destinations */}
+              {data?.topDestinations && data.topDestinations.length > 0 && (
+                <section className="dashboard-section">
+                  <h2 className="text-2xl font-serif italic text-primary mb-6">
+                    Your Favorite Spots
+                  </h2>
+                  <div className="space-y-3">
+                    {data.topDestinations.map((dest, idx) => (
+                      <div
+                        key={dest.cityId}
+                        className="flex items-center justify-between group"
+                      >
+                        <div className="flex items-center gap-3">
+                          <span className="font-serif italic text-border text-sm">
+                            #{idx + 1}
+                          </span>
+                          <span className="text-sm font-medium group-hover:text-primary transition-colors">
+                            {dest.city.name}
+                          </span>
+                        </div>
+                        <span className="text-xs text-muted">
+                          {dest._count.cityId} visits
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              )}
             </div>
-          </section>
+          </div>
         </div>
       </div>
     </div>
