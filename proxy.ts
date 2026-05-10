@@ -5,10 +5,27 @@ export default auth((req) => {
   const isLoggedIn = !!req.auth
   const { nextUrl } = req
 
-  // Basic role-based protection example
-  if (nextUrl.pathname.startsWith("/admin")) {
-    if (!isLoggedIn || req.auth?.user?.role !== "ADMIN") {
-      return NextResponse.redirect(new URL("/api/auth/signin", nextUrl))
+  const isAuthPage = nextUrl.pathname.startsWith("/login") || nextUrl.pathname.startsWith("/signup")
+  const isDashboardPage = nextUrl.pathname.startsWith("/dashboard")
+  const isAdminPage = nextUrl.pathname.startsWith("/admin")
+
+  // Redirect authenticated users away from login/signup to dashboard
+  if (isAuthPage) {
+    if (isLoggedIn) {
+      return NextResponse.redirect(new URL("/dashboard", nextUrl))
+    }
+    return NextResponse.next()
+  }
+
+  // Protect dashboard and admin routes
+  if (isDashboardPage || isAdminPage) {
+    if (!isLoggedIn) {
+      return NextResponse.redirect(new URL("/login", nextUrl))
+    }
+    
+    // Additional check for admin
+    if (isAdminPage && req.auth?.user?.role !== "ADMIN") {
+      return NextResponse.redirect(new URL("/dashboard", nextUrl))
     }
   }
 
