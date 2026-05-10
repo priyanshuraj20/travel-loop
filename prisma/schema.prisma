@@ -28,6 +28,115 @@ model User {
   role          UserRole  @default(USER)
   accounts      Account[]
   sessions      Session[]
+  
+  // Profile settings
+  language      String    @default("en")
+  
+  // Relationships
+  trips         Trip[]
+  savedCities   City[]    @relation("UserSavedCities")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Trip {
+  id           String   @id @default(cuid())
+  name         String
+  description  String?
+  startDate    DateTime
+  endDate      DateTime
+  coverPhoto   String?
+  isPublic     Boolean  @default(false)
+  publicId     String   @unique @default(cuid())
+  
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  stops        Stop[]
+  budgets      Budget[]
+  packingItems PackingItem[]
+  notes        Note[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model City {
+  id          String   @id @default(cuid())
+  name        String
+  country     String
+  costIndex   Int      // 1-5 scale
+  popularity  Int      // 1-100 score
+  image       String?
+
+  stops       Stop[]
+  savedBy     User[]   @relation("UserSavedCities")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Stop {
+  id            String    @id @default(cuid())
+  arrivalDate   DateTime
+  departureDate DateTime
+  order         Int
+  
+  tripId        String
+  trip          Trip      @relation(fields: [tripId], references: [id], onDelete: Cascade)
+  
+  cityId        String
+  city          City      @relation(fields: [cityId], references: [id])
+  
+  activities    Activity[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Activity {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  category    String   // e.g., Sightseeing, Food, Adventure
+  interest    String   // e.g., History, Nature, Nightlife
+  cost        Float    @default(0)
+  image       String?
+  
+  stopId      String
+  stop        Stop     @relation(fields: [stopId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Budget {
+  id       String @id @default(cuid())
+  category String // transport, stay, activities, meals
+  amount   Float
+  limit    Float  @default(0)
+  
+  tripId   String
+  trip     Trip   @relation(fields: [tripId], references: [id], onDelete: Cascade)
+}
+
+model PackingItem {
+  id        String  @id @default(cuid())
+  name      String
+  category  String  // clothing, documents, electronics
+  isChecked Boolean @default(false)
+  
+  tripId    String
+  trip      Trip    @relation(fields: [tripId], references: [id], onDelete: Cascade)
+}
+
+model Note {
+  id      String @id @default(cuid())
+  content String @db.Text
+  
+  tripId  String
+  trip    Trip   @relation(fields: [tripId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

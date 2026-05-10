@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma"
 import Credentials from "next-auth/providers/credentials"
 import { UserRole } from "./prisma/client/enums"
 import bcrypt from "bcrypt"
+import { DefaultSession } from "next-auth"
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   adapter: PrismaAdapter(prisma),
@@ -44,12 +45,14 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     async jwt({ token, user }) {
       if (user) {
         token.role = user.role
+        token.id = user.id
       }
       return token
     },
     async session({ session, token }) {
-      if (session.user && token.role) {
+      if (session.user) {
         session.user.role = token.role as UserRole
+        session.user.id = token.id as string
       }
       return session
     },
@@ -60,6 +63,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 declare module "next-auth" {
   interface Session {
     user: {
+      id: string
       role: UserRole
     } & DefaultSession["user"]
   }
@@ -68,5 +72,3 @@ declare module "next-auth" {
     role: UserRole
   }
 }
-
-import { DefaultSession } from "next-auth"

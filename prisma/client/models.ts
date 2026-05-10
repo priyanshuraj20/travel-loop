@@ -9,6 +9,13 @@
  * 🟢 You can import this file directly.
  */
 export type * from './models/User'
+export type * from './models/Trip'
+export type * from './models/City'
+export type * from './models/Stop'
+export type * from './models/Activity'
+export type * from './models/Budget'
+export type * from './models/PackingItem'
+export type * from './models/Note'
 export type * from './models/Account'
 export type * from './models/Session'
 export type * from './models/VerificationToken'
