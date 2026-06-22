@@ -606,6 +606,12 @@ export default function ItineraryPage() {
           </Link>
           <div className="flex gap-4">
             <Link
+              href={`/trips/${trip.id}/notes`}
+              className="px-6 py-2.5 border border-primary text-primary rounded font-bold uppercase tracking-widest text-sm hover:bg-primary/5 transition-all"
+            >
+              Travel Journal
+            </Link>
+            <Link
               href={`/trips/${trip.id}/budget`}
               className="px-6 py-2.5 border border-primary text-primary rounded font-bold uppercase tracking-widest text-sm hover:bg-primary/5 transition-all"
             >
