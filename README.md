@@ -1,6 +1,6 @@
 README TITLE
 # 🌍 Travel Loop – Travel Itinerary Planning Platform
-DESCRIPTION
+
 Travel Loop is a full-stack travel itinerary planning platform that helps users organize trips, manage budgets, maintain packing checklists, and document travel experiences in a single application.
 
 The platform provides an intuitive workflow for planning journeys, tracking travel expenses, managing destinations, and maintaining personal travel journals.
@@ -10,7 +10,7 @@ LIVE DEMO
 ## 🚀 Live Demo
 
 🔗 https://travel-loop-beta.vercel.app/
-FEATURES
+
 ## ✨ Features
 
 - 🔐 Secure user authentication and session management
@@ -21,7 +21,7 @@ FEATURES
 - 📊 Dashboard with trip statistics and analytics
 - 🔍 Search and filter trips
 - 📱 Responsive design across devices
-TECH STACK
+
 ## 🛠️ Tech Stack
 
 ### Frontend
