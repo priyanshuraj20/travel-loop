@@ -1,36 +1,106 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+README TITLE
+# 🌍 Travel Loop – Travel Itinerary Planning Platform
+DESCRIPTION
+Travel Loop is a full-stack travel itinerary planning platform that helps users organize trips, manage budgets, maintain packing checklists, and document travel experiences in a single application.
 
-## Getting Started
+The platform provides an intuitive workflow for planning journeys, tracking travel expenses, managing destinations, and maintaining personal travel journals.
 
-First, run the development server:
+Built using Next.js, React, PostgreSQL, Prisma ORM, and Auth.js.
+LIVE DEMO
+## 🚀 Live Demo
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+🔗 https://travel-loop-beta.vercel.app/
+FEATURES
+## ✨ Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- 🔐 Secure user authentication and session management
+- 🗺️ Create and manage travel itineraries
+- 💰 Budget planning and expense tracking
+- 📦 Packing checklist management
+- 📖 Travel journal and trip documentation
+- 📊 Dashboard with trip statistics and analytics
+- 🔍 Search and filter trips
+- 📱 Responsive design across devices
+TECH STACK
+## 🛠️ Tech Stack
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Frontend
+- Next.js
+- React.js
+- Tailwind CSS
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Backend
+- Next.js API Routes
+- Prisma ORM
 
-## Learn More
+### Database
+- PostgreSQL
 
-To learn more about Next.js, take a look at the following resources:
+### Authentication
+- Auth.js (NextAuth)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Deployment
+- Vercel
+SCREENSHOTS
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Ye section bahut important hai.
 
-## Deploy on Vercel
+## 📸 Screenshots
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Landing Page
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+![Landing Page](./screenshots/landing-page.png)
+
+### Authentication
+
+![Authentication](./screenshots/auth.png)
+
+### Dashboard
+
+![Dashboard](./screenshots/dashboard.png)
+
+### My Trips
+
+![My Trips](./screenshots/trips.png)
+
+### Trip Planning Workflow
+
+![Trip Planning](./screenshots/planner.png)
+PROJECT STRUCTURE
+## 🧠 Core Modules
+
+### Authentication
+User registration, login, and session management.
+
+### Trip Management
+Create, update, and organize travel plans.
+
+### Budget Tracking
+Track expenses and monitor travel budgets.
+
+### Packing Lists
+Maintain travel checklists.
+
+### Travel Journal
+Store travel notes and memories.
+
+### Dashboard
+Visual overview of journeys and travel activity.
+WHY I BUILT THIS
+
+Interviewer ye section dekh ke impress hota hai.
+
+## 💡 Motivation
+
+Many travelers use multiple tools for itinerary planning, budget tracking, packing lists, and note-taking.
+
+The goal of Travel Loop was to bring these workflows into a single platform and provide a more organized travel planning experience.
+LEARNING
+## 📚 What I Learned
+
+- Building full-stack applications using Next.js
+- Database modeling with PostgreSQL and Prisma
+- Authentication and session management
+- API integration and frontend-backend communication
+- Responsive UI development
+- Deploying production applications using Vercel
